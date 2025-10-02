@@ -1,4 +1,5 @@
-import { Client, Databases, ID, Query, Account } from "appwrite";
+import { Account, Client, Databases, ID, Query } from "appwrite";
+import Constants from 'expo-constants';
 
 // Define the SavedMovie type if not already defined or imported
 export type SavedMovie = {
@@ -14,16 +15,16 @@ export type SavedMovie = {
 
 // track the searches made by a user
 
-const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!;
+const DATABASE_ID = Constants.expoConfig?.extra?.expoPublicAppwriteDatabaseId!;
 const TRENDING_COLLECTION_ID =
-  process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID_TRENDING!;
+  Constants.expoConfig?.extra?.expoPublicAppwriteCollectionIdTrending!;
 const SAVED_COLLECTION_ID =
-  process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID_SAVED!;
+  Constants.expoConfig?.extra?.expoPublicAppwriteCollectionIdSaved!;
 
 const client = new Client();
 client
-  .setEndpoint(process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!)
-  .setProject(process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!);
+  .setEndpoint(Constants.expoConfig?.extra?.expoPublicAppwriteEndpoint!)
+  .setProject(Constants.expoConfig?.extra?.expoPublicAppwriteProjectId!);
 
 const databases = new Databases(client);
 
