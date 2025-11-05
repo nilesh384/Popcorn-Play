@@ -1,26 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
 import { Picker } from '@react-native-picker/picker';
+import React, { useEffect, useRef, useState } from "react";
 
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  RefreshControl,
-  ActivityIndicator,
-  TouchableOpacity,
-  TouchableHighlight,
-} from "react-native";
-import { images } from "@/constants/images";
 import MovieCard from "@/Components/MovieCard";
-import TrendingCard from "@/Components/TrendingCard";
-import SkeletonTrendingCard from "@/Components/SkeletonTrendingCard";
 import SkeletonMovieCard from "@/Components/SkeletonMovieCard";
+import SkeletonTrendingCard from "@/Components/SkeletonTrendingCard";
+import TrendingCard from "@/Components/TrendingCard";
+import { images } from "@/constants/images";
 import { fetchAll, fetchLists } from "@/services/api";
 import { getTrendingMovies } from "@/services/appwrite";
-import useFetch from "@/services/useFetch";
 import { useAuth } from "@/services/AuthContext";
+import useFetch from "@/services/useFetch";
 import { router } from "expo-router";
+import {
+    ActivityIndicator,
+    FlatList,
+    Image,
+    RefreshControl,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
@@ -303,11 +303,8 @@ export default function Home() {
         keyExtractor={(item) => item.id.toString()}
         numColumns={3}
         columnWrapperStyle={{
-          justifyContent: "flex-start",
-          gap: 13,
-          paddingHorizontal: 2,
-          marginBottom: 10,
-          marginTop: 20,
+          justifyContent: "space-between",
+          marginVertical: 8,
         }}
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}

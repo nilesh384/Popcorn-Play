@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import React from 'react';
-import { router } from 'expo-router';
 import { icons } from '@/constants/icons';
+import { router } from 'expo-router';
+import React from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 type MovieCardProps = {
   id: number;
@@ -31,8 +31,8 @@ const MovieCard = ({
   };
   
   return (
-    <TouchableOpacity className='w-32' onPress={handlePress}>
-      <View className="relative w-full h-52">
+    <TouchableOpacity className='flex-1 max-w-[30%]' onPress={handlePress} style={{ marginHorizontal: 4 }}>
+      <View className="relative w-full aspect-[2/3]">
         <Image
           source={{
             uri: poster_path

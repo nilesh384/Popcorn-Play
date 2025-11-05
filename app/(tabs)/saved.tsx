@@ -1,12 +1,12 @@
-import { View, FlatList, Image, Text } from 'react-native';
-import React, { useState, useCallback } from 'react';
-import { useAuth } from '@/services/AuthContext';
-import { getSavedMovies } from '../../services/appwrite';
 import MovieCard from '@/Components/MovieCard';
 import { icons } from '@/constants/icons';
-import { Redirect } from 'expo-router';
+import { useAuth } from '@/services/AuthContext';
 import { useFocusEffect } from '@react-navigation/native';
+import { Redirect } from 'expo-router';
+import React, { useCallback, useState } from 'react';
+import { FlatList, Image, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getSavedMovies } from '../../services/appwrite';
 
 const Saved = () => {
   const { user, isLoading } = useAuth();
@@ -28,17 +28,32 @@ const Saved = () => {
     }, [user])
   );
 
-  if (!user && !isLoading) return <Redirect href="/auth/Login" />;
+  // Show loading while auth is being checked
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center bg-primary">
+        <Text className="text-white">Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  // Redirect to login if user is not authenticated
+  if (!user) {
+    return <Redirect href="/auth/Login" />;
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-primary">
-      <View className="flex-1 bg-primary px-4 pt-5">
+      <View className="flex-1 bg-primary px-3 pt-5">
       <FlatList
         data={savedMovies}
         keyExtractor={(item) => item.$id}
         numColumns={3}
-        contentContainerStyle={{ paddingVertical: 20 }}
-        columnWrapperStyle={{ justifyContent: 'flex-start', gap:13 , marginVertical: 12, }}
+        contentContainerStyle={{ paddingVertical: 20, paddingHorizontal: 8 }}
+        columnWrapperStyle={{ 
+          justifyContent: 'space-between', 
+          marginVertical: 8,
+        }}
         
         renderItem={({ item }) => (
           <MovieCard

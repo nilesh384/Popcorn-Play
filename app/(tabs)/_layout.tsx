@@ -1,8 +1,8 @@
-import { Tabs, Redirect, useSegments } from "expo-router";
-import { useAuth } from "@/services/AuthContext";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { View, Text, Image, ImageBackground } from "react-native";
+import { useAuth } from "@/services/AuthContext";
+import { Redirect, Tabs, useSegments } from "expo-router";
+import { Image, ImageBackground, Text, View } from "react-native";
 
 const protectedTabs = ["search", "saved", "profile"];
 
@@ -41,10 +41,18 @@ export default function TabsLayout() {
 
   const currentTab = segments[1]; // because segments = ["(tabs)", "search"] for example
 
-  if (isLoading) return null;
+  // Show loading while checking auth
+  if (isLoading) {
+    return (
+      <View className="flex-1 justify-center items-center bg-primary">
+        <Text className="text-white">Loading...</Text>
+      </View>
+    );
+  }
 
+  // For protected tabs, redirect to auth only if user is not logged in
   if (!user && currentTab && protectedTabs.includes(currentTab)) {
-    return <Redirect href="/auth/Signup" />;
+    return <Redirect href="/auth/Login" />;
   }
 
   return (

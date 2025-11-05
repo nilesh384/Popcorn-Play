@@ -8,20 +8,32 @@ import { useAuth } from "@/services/AuthContext";
 import { Redirect, router } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  Text,
-  TouchableHighlight,
-  View,
+    ActivityIndicator,
+    FlatList,
+    Image,
+    Text,
+    TouchableHighlight,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Search() {
   const { user, isLoading } = useAuth();
 
-  if (!user && !isLoading) return <Redirect href="/auth/Login" />;
-  if (isLoading) return null;
+  // Show loading while auth is being checked
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 justify-center items-center bg-primary">
+        <ActivityIndicator size="large" color="#ffffff" />
+        <Text className="text-white mt-4">Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  // Redirect to login if user is not authenticated
+  if (!user) {
+    return <Redirect href="/auth/Login" />;
+  }
 
   const [searchQuery, setSearchQuery] = useState("");
   // Define a union type for Movie or Person
@@ -82,16 +94,15 @@ export default function Search() {
       <Image source={images.bg} className="absolute w-full h-full z-0" />
 
       <FlatList
-        className="flex-1 px-5"
+        className="flex-1 px-3"
         data={movies}
         keyExtractor={(item) => item.id.toString()}
         numColumns={3}
         columnWrapperStyle={{
-          justifyContent: "space-evenly",
-          marginVertical: 16,
-          paddingHorizontal: 2,
+          justifyContent: "space-between",
+          marginVertical: 8,
         }}
-        contentContainerStyle={{ paddingBottom: 50 }}
+        contentContainerStyle={{ paddingBottom: 50, paddingHorizontal: 8 }}
         scrollEnabled={true}
         ListHeaderComponent={
           <View>
